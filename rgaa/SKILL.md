@@ -1,134 +1,90 @@
 ---
 name: rgaa
-description: Référentiel Général d'Amélioration de l'Accessibilité (RGAA 4.1.2) — les 106 critères d'accessibilité numérique français avec patterns React/HTML. Utiliser cette skill quand l'utilisateur demande de vérifier l'accessibilité, de rendre du code accessible, de respecter le RGAA, quand il mentionne l'accessibilité web, les critères RGAA, la conformité RGAA, le WCAG dans un contexte français, ou quand on crée/modifie des composants HTML/React qui doivent être accessibles. Couvre images, couleurs, formulaires, navigation, structure, liens, scripts, multimédia, tableaux et consultation.
+description: Outil d'audit de conformité RGAA 4.1.2 pour sites web et composants React/HTML. Utiliser cette skill pour auditer la conformité RGAA d'un site ou d'un composant : quand l'utilisateur demande un audit d'accessibilité, un rapport de conformité RGAA, quand il veut savoir si son code/site respecte le RGAA, quand il mentionne "audit RGAA", "conformité RGAA", "non-conformités", "déclaration d'accessibilité", ou quand il partage du code HTML/React pour vérification a posteriori.
 ---
 
-# RGAA 4.1.2
+# RGAA 4.1.2 — Outil d'audit de conformité
 
 Référentiel d'accessibilité numérique français. 106 critères répartis en 13 thématiques. Basé sur WCAG 2.1 niveau AA.
 
 Source : https://accessibilite.numerique.gouv.fr/
 
-## Checklist rapide par type de composant
+## Workflow d'audit
 
-### Page HTML
-- [ ] `<!DOCTYPE html>` présent (8.1)
-- [ ] `<html lang="fr">` (8.3)
-- [ ] `<title>` pertinent et unique (8.5–8.6)
-- [ ] Structure : `<header>`, `<nav>`, `<main>` (unique), `<footer>` (9.2)
-- [ ] Hiérarchie des titres h1→h6 sans saut (9.1)
-- [ ] Lien d'évitement "Aller au contenu" (12.7)
-- [ ] 2 systèmes de navigation minimum (12.1)
-- [ ] Focus visible sur tout élément interactif (10.7)
-- [ ] Pas de scroll horizontal à 320px de large (10.11)
+1. **Analyser le code fourni** (HTML, JSX, CSS)
+2. **Parcourir les 13 thèmes RGAA** en consultant les fichiers de référence détaillés
+3. **Pour chaque critère**, attribuer un statut :
+   - **C** — Conforme : critère respecté
+   - **NC** — Non conforme : critère violé (identifier l'élément et le problème)
+   - **NA** — Non applicable : critère sans objet pour ce contenu (justifier)
+4. **Produire le rapport structuré** selon le format ci-dessous
 
-### Images
-- [ ] Image informative : `alt` pertinent et concis ≤80 car (1.1, 1.3)
-- [ ] Image décorative : `alt=""` (1.2)
-- [ ] SVG informative : `role="img"` + `aria-label` (1.1)
-- [ ] SVG décorative : `aria-hidden="true"` (1.2)
-- [ ] Image complexe : description détaillée (1.6)
-- [ ] Image avec légende : `<figure>` + `<figcaption>` (1.9)
+## Format du rapport de conformité
 
-### Liens
-- [ ] Intitulé explicite (pas de "cliquez ici") (6.1)
-- [ ] Tout lien a un intitulé accessible (6.2)
-- [ ] Liens distinguables du texte autrement que par la couleur (10.6)
-- [ ] Nouvelle fenêtre signalée (13.2)
+```markdown
+## Audit RGAA 4.1.2 — Rapport de conformité
 
-### Formulaires
-- [ ] Chaque champ a un `<label>` associé (11.1)
-- [ ] Champs obligatoires : `required` + indication visible (11.10)
-- [ ] Erreurs : `aria-invalid="true"` + message visible avec `aria-describedby` (11.10)
-- [ ] Format attendu indiqué avant saisie (11.10)
-- [ ] Suggestions de correction (11.11)
-- [ ] Champs groupés : `<fieldset>` + `<legend>` (11.5)
-- [ ] Boutons avec intitulé pertinent (11.9)
-- [ ] `autocomplete` sur les champs utilisateur (11.13)
+**Date :** JJ/MM/AAAA
+**Périmètre audité :** [description du code / page / composant]
+**Résultat global :** X% conforme
+(X critères applicables — X conformes, X non conformes, X non applicables)
 
-### Tableaux
-- [ ] `<caption>` pour le titre (5.4)
-- [ ] `<th scope="col/row">` pour les en-têtes (5.6)
-- [ ] Tableau de mise en forme : `role="presentation"` (5.3)
+---
 
-### Couleurs et contraste
-- [ ] Texte normal : contraste ≥ 4.5:1 (3.2)
-- [ ] Grand texte (≥24px ou ≥18.5px gras) : contraste ≥ 3:1 (3.2)
-- [ ] Composants d'interface : contraste ≥ 3:1 (3.3)
-- [ ] Information pas uniquement par la couleur (3.1)
+### Tableau de synthèse
 
-### Scripts et composants interactifs
-- [ ] Composants accessibles au clavier (7.3)
-- [ ] Rôles ARIA corrects (7.1)
-- [ ] Messages de statut : `role="status"` ou `role="alert"` (7.5)
-- [ ] Pas de piège au clavier (12.9)
-- [ ] Ordre de tabulation logique (12.8)
+| Thème | C | NC | NA |
+|-------|---|----|----|
+| 1. Images | | | |
+| 2. Cadres | | | |
+| 3. Couleurs | | | |
+| 4. Multimédia | | | |
+| 5. Tableaux | | | |
+| 6. Liens | | | |
+| 7. Scripts | | | |
+| 8. Éléments obligatoires | | | |
+| 9. Structuration | | | |
+| 10. Présentation | | | |
+| 11. Formulaires | | | |
+| 12. Navigation | | | |
+| 13. Consultation | | | |
+| **Total** | | | |
 
-### Multimédia
-- [ ] Vidéo : sous-titres `<track kind="captions">` (4.3)
-- [ ] Transcription textuelle disponible (4.1)
-- [ ] Contrôles accessibles au clavier (4.11)
-- [ ] Pas de son automatique (4.10)
+---
 
-## Patterns React essentiels
+### Non-conformités détectées
 
-### Classe sr-only (contenu visible uniquement par les AT)
-```css
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
+**[NC] {ID} — {Intitulé du critère}**
+- **Élément concerné :** `<code>` ou description de l'endroit dans la page
+- **Problème :** description précise de la violation
+- **Correction :** action concrète à mener
+- **Priorité :** 🔴 Bloquant / 🟠 Majeur / 🟡 Mineur
+
+---
+
+### Critères conformes
+
+{ID1}, {ID2}, {ID3}... (liste compacte)
+
+### Critères non applicables
+
+- **{ID}** — {justification courte}
 ```
 
-### Bouton interactif (pas de div cliquable)
-```tsx
-// ❌ <div onClick={fn}>Action</div>
-// ✅
-<button onClick={fn}>Action</button>
-```
+## Grille de priorités
 
-### Message de statut dynamique
-```tsx
-<div role="status" aria-live="polite">
-  {message && <p>{message}</p>}
-</div>
-```
-
-### Modale accessible
-```tsx
-<dialog open={isOpen} aria-labelledby="modal-title" aria-modal="true">
-  <h2 id="modal-title">Titre</h2>
-  <p>Contenu</p>
-  <button onClick={close}>Fermer</button>
-</dialog>
-```
-
-### Navigation avec landmarks
-```tsx
-<a href="#main-content" className="sr-only focus:not-sr-only">
-  Aller au contenu principal
-</a>
-<header>...</header>
-<nav aria-label="Menu principal">...</nav>
-<main id="main-content" tabIndex={-1}>...</main>
-<footer>...</footer>
-```
+| Priorité | Définition | Exemples |
+|----------|------------|---------|
+| 🔴 **Bloquant** | Bloque l'accès au contenu ou à la fonctionnalité pour un utilisateur AT | Image sans `alt`, champ sans label, lien vide, piège au clavier |
+| 🟠 **Majeur** | Impact fort sur l'expérience mais contournable par certains AT | Contraste insuffisant, focus non visible, hiérarchie de titres cassée, lien non explicite |
+| 🟡 **Mineur** | Gêne légère, dégradation de l'expérience sans blocage | `autocomplete` manquant, `caption` de tableau absent, nouvelle fenêtre non signalée |
 
 ## Référence détaillée des critères
 
-Consulter les fichiers de référence par thématique :
+Chaque fichier de référence liste les critères avec leur condition, test de code, non-conformité type et priorité.
 
 - **Images, Cadres, Couleurs** (thèmes 1–3, 14 critères) : [references/criteres-images-cadres-couleurs.md](references/criteres-images-cadres-couleurs.md)
 - **Multimédia, Tableaux, Liens, Scripts** (thèmes 4–7, 28 critères) : [references/criteres-multimedia-tableaux-liens-scripts.md](references/criteres-multimedia-tableaux-liens-scripts.md)
 - **Éléments obligatoires, Structure, Présentation** (thèmes 8–10, 28 critères) : [references/criteres-structure-presentation.md](references/criteres-structure-presentation.md)
 - **Formulaires** (thème 11, 13 critères) : [references/criteres-formulaires.md](references/criteres-formulaires.md)
 - **Navigation, Consultation** (thèmes 12–13, 23 critères) : [references/criteres-navigation-consultation.md](references/criteres-navigation-consultation.md)
-
-Chaque fichier contient les critères détaillés, les tests associés et des exemples de code React/HTML conformes.
