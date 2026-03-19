@@ -24,6 +24,16 @@ Fournir du code HTML/React à auditer → rapport de conformité structuré avec
 - Couvre les 13 thèmes : images, cadres, couleurs, multimédia, tableaux, liens, scripts, structure, présentation, formulaires, navigation, consultation
 - Basé sur WCAG 2.1 niveau AA
 
+### lasuite-ui-kit
+
+Créer des interfaces React pour les applications [LaSuite](https://lasuite.numerique.gouv.fr/) avec `@gouvfr-lasuite/ui-kit` et `@gouvfr-lasuite/cunningham-react`.
+
+- Layout applicatif (MainLayout, Header, Footer, Hero)
+- Composants de navigation (DropdownMenu, ContextMenu, TreeView, Tabs)
+- Recherche rapide (QuickSearch), partage (ShareModal), badges, icônes Material
+- Composants de base Cunningham (Button, Input, Select, Modal, DataGrid)
+- Setup Vite / Next.js (App Router & Pages Router)
+
 ### securite-anssi
 
 12 règles essentielles de sécurité issues du [guide d'hygiène ANSSI](https://cyber.gouv.fr/publications/guide-dhygiene-informatique).
@@ -40,6 +50,7 @@ Fournir du code HTML/React à auditer → rapport de conformité structuré avec
 # Cloner dans le dossier skills de Claude Code
 git clone https://github.com/benoitvx/skills-etat.git
 cp -r skills-etat/react-dsfr ~/.claude/skills/
+cp -r skills-etat/lasuite-ui-kit ~/.claude/skills/
 cp -r skills-etat/rgaa ~/.claude/skills/
 cp -r skills-etat/securite-anssi ~/.claude/skills/
 ```
@@ -49,6 +60,7 @@ cp -r skills-etat/securite-anssi ~/.claude/skills/
 ```bash
 git clone https://github.com/benoitvx/skills-etat.git
 cp -r skills-etat/react-dsfr ~/.config/opencode/skills/
+cp -r skills-etat/lasuite-ui-kit ~/.config/opencode/skills/
 cp -r skills-etat/rgaa ~/.config/opencode/skills/
 cp -r skills-etat/securite-anssi ~/.config/opencode/skills/
 ```
@@ -66,6 +78,12 @@ skills-etat/
 │   └── references/
 │       ├── setup.md
 │       └── components.md
+├── lasuite-ui-kit/
+│   ├── SKILL.md
+│   └── references/
+│       ├── components.md
+│       ├── cunningham.md
+│       └── setup.md
 ├── rgaa/
 │   ├── SKILL.md
 │   └── references/
