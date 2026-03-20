@@ -51,6 +51,17 @@ Référence consolidée des 3 APIs de [data.gouv.fr](https://www.data.gouv.fr/) 
 - API Tabulaire (requêter les données CSV par resource ID)
 - Skill synchronisée automatiquement depuis [datagouv/datagouv-skill](https://github.com/datagouv/datagouv-skill)
 
+## Templates d'instructions
+
+Fichiers `INSTRUCTIONS.md` prêts à l'emploi pour configurer un assistant de code IA sur un projet de l'État. Copier le fichier correspondant à la racine de votre projet sous le nom `INSTRUCTIONS.md` ou `CLAUDE.md`.
+
+| Template | Écosystème | Design System | Package manager |
+|----------|-----------|---------------|-----------------|
+| [`beta.gouv.md`](templates/instructions/beta.gouv.md) | [beta.gouv.fr](https://beta.gouv.fr/) | DSFR (`@codegouvfr/react-dsfr`) | pnpm |
+| [`LaSuite.md`](templates/instructions/LaSuite.md) | [La Suite numérique](https://lasuite.numerique.gouv.fr/) | UI Kit + Cunningham | yarn |
+
+Chaque template inclut : conventions de langue, design system, accessibilité RGAA, sécurité ANSSI, RGPD, stack recommandée, tests, conventions Git et références vers les skills pertinentes de ce repo.
+
 ## Installation
 
 ### Claude Code
@@ -105,8 +116,12 @@ skills-etat/
 │       └── criteres-structure-presentation.md
 ├── securite-anssi/
 │   └── SKILL.md
-└── datagouv/
-    └── SKILL.md
+├── datagouv/
+│   └── SKILL.md
+└── templates/
+    └── instructions/
+        ├── beta.gouv.md
+        └── LaSuite.md
 ```
 
 ## Licence
