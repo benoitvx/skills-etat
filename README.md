@@ -42,6 +42,15 @@ Créer des interfaces React pour les applications [LaSuite](https://lasuite.nume
 - Headers de sécurité, validation des entrées
 - Dépendances, logs, conteneurs, incidents
 
+### datagouv
+
+Référence consolidée des 3 APIs de [data.gouv.fr](https://www.data.gouv.fr/) pour interagir avec la plateforme de données ouvertes.
+
+- API principale (catalogue : datasets, organisations, réutilisations, ressources)
+- API Metrics (statistiques d'usage par modèle)
+- API Tabulaire (requêter les données CSV par resource ID)
+- Skill synchronisée automatiquement depuis [datagouv/datagouv-skill](https://github.com/datagouv/datagouv-skill)
+
 ## Installation
 
 ### Claude Code
@@ -53,6 +62,7 @@ cp -r skills-etat/react-dsfr ~/.claude/skills/
 cp -r skills-etat/lasuite-ui-kit ~/.claude/skills/
 cp -r skills-etat/rgaa ~/.claude/skills/
 cp -r skills-etat/securite-anssi ~/.claude/skills/
+cp -r skills-etat/datagouv ~/.claude/skills/
 ```
 
 ### OpenCode
@@ -63,6 +73,7 @@ cp -r skills-etat/react-dsfr ~/.config/opencode/skills/
 cp -r skills-etat/lasuite-ui-kit ~/.config/opencode/skills/
 cp -r skills-etat/rgaa ~/.config/opencode/skills/
 cp -r skills-etat/securite-anssi ~/.config/opencode/skills/
+cp -r skills-etat/datagouv ~/.config/opencode/skills/
 ```
 
 ### Mistral Vibe
@@ -92,7 +103,9 @@ skills-etat/
 │       ├── criteres-multimedia-tableaux-liens-scripts.md
 │       ├── criteres-navigation-consultation.md
 │       └── criteres-structure-presentation.md
-└── securite-anssi/
+├── securite-anssi/
+│   └── SKILL.md
+└── datagouv/
     └── SKILL.md
 ```
 

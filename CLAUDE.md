@@ -1,0 +1,41 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What This Repo Is
+
+A collection of AI coding assistant skills ("skills") for French government software development standards. Each skill is a self-contained directory with a `SKILL.md` (frontmatter + instructions) and optional `references/` folder with detailed documentation. Skills are installed by copying them into `~/.claude/skills/` (Claude Code) or `~/.config/opencode/skills/` (OpenCode).
+
+This is a **documentation-only repo** — no build system, no tests, no dependencies. All files are Markdown.
+
+## Architecture
+
+Each skill follows the same structure:
+```
+skill-name/
+├── SKILL.md          # Frontmatter (name, description, trigger conditions) + main instructions
+└── references/       # Optional detailed reference docs split by topic
+```
+
+The `SKILL.md` frontmatter fields (`name`, `description`) are used by AI tools to decide when to activate the skill. The `description` field is critical — it defines the trigger conditions.
+
+## Current Skills
+
+- **react-dsfr** — React components for the Design System de l'État (DSFR) using `@codegouvfr/react-dsfr`
+- **lasuite-ui-kit** — React components for LaSuite apps using `@gouvfr-lasuite/ui-kit` and `@gouvfr-lasuite/cunningham-react`
+- **rgaa** — RGAA 4.1.2 accessibility audit tool (106 criteria, produces structured conformity reports)
+- **securite-anssi** — ANSSI security checklist (12 rules for government app development)
+- **datagouv** — data.gouv.fr APIs reference (catalog, metrics, tabular) — synced from [datagouv/datagouv-skill](https://github.com/datagouv/datagouv-skill)
+
+## Upstream Sync
+
+The `datagouv` skill is synced from an external repo (`datagouv/datagouv-skill`). A GitHub Actions workflow (`.github/workflows/sync-datagouv.yml`) runs weekly (Monday 9h UTC) and on manual trigger. It compares the upstream HEAD SHA against `.sync-state/datagouv.sha` and opens a PR if changes are detected. This mechanism is extensible to other third-party skills.
+
+## Conventions
+
+- All content is in **French**
+- Skills target React/TypeScript projects
+- SKILL.md files use YAML frontmatter (`---` delimiters) with `name` and `description` fields
+- Reference files are split by theme/topic to keep individual files manageable
+- The rgaa skill is an audit tool (input: code to audit → output: structured report), not a code generation skill
+- Commit messages follow conventional commits format (e.g., `feat(skill-name):`, `docs(readme):`, `refactor(skill-name):`)
