@@ -1,0 +1,255 @@
+# INSTRUCTIONS.md — beta.gouv / French Government Projects
+
+> **Ready to use.** Copy this file to the root of your project as `INSTRUCTIONS.md`.
+> Claude Code and other AI coding assistants automatically load it as context.
+>
+> Source: [beta.gouv standards](https://doc.incubateur.net/communaute/gerer-son-produit/readme-doc-incubateur-net)
+
+---
+
+# Project Instructions
+
+## Context
+
+French government project, part of the [beta.gouv.fr](https://beta.gouv.fr/) ecosystem.
+Compliant with [beta.gouv standards](https://doc.incubateur.net/).
+
+## Language
+
+| Context | Language |
+|---------|----------|
+| Source code (variables, functions, types) | English |
+| Code comments | English |
+| Commit messages | **French** |
+| Pull/Merge Requests (title, description) | **French** |
+| Issues and discussions | **French** |
+| Code review | **French** |
+| User interface | French |
+
+---
+
+## Design System — DSFR
+
+The [DSFR](https://www.systeme-de-design.gouv.fr/) (Design System de l'État) is **mandatory** for French government services.
+Component docs: https://www.systeme-de-design.gouv.fr/version-courante/fr/composants
+
+**Framework implementations:**
+
+| Framework | Package | Repo |
+|-----------|---------|------|
+| React | `@codegouvfr/react-dsfr` | https://github.com/codegouvfr/react-dsfr |
+| Vue.js | `vue-dsfr` | https://github.com/dnum-mi/vue-dsfr |
+| Angular | `@edugouvfr/ngx-dsfr` | https://gitlab.mim-libre.fr/men/transverse/dsmen/ngx-dsfr-components |
+| Django | `django-dsfr` | https://github.com/entrepreneur-interet-general/django-dsfr |
+| Rails | `dsfr-view-components` | https://github.com/betagouv/dsfr-view-components |
+| Keycloak | `keycloak-theme-dsfr` | https://github.com/codegouvfr/keycloak-theme-dsfr |
+
+> Use the DSFR implementation matching your project's stack. RGAA 4.2 accessibility compliance is built in.
+
+> For React projects, the `react-dsfr` skill from [skills-etat](https://github.com/numerique-gouv/skills-etat) provides detailed component reference and code patterns.
+
+**Plain HTML:**
+- Use `fr-*` CSS classes
+- Follow the examples from the official documentation
+
+**Rules:**
+- NEVER create a custom component if an equivalent DSFR component exists
+- Always check the DSFR docs before implementing
+- Use DSFR colors and spacing (no hardcoded values)
+- Map Figma components to existing DSFR components
+
+---
+
+## Accessibility — RGAA
+
+RGAA 4.2 compliance (WCAG 2.1 AA) is mandatory.
+Ref: https://accessibilite.numerique.gouv.fr/
+
+> For a comprehensive audit, the `rgaa` skill from [skills-etat](https://github.com/numerique-gouv/skills-etat) provides a full 106-criteria audit tool that produces structured conformity reports.
+
+### Images
+
+- `alt` only on images that carry information
+- Decorative images: `alt=""` (mandatory, otherwise screen readers read the URL)
+- The alternative describes the **meaning**, not the appearance
+
+### Contrasts
+
+- Text: minimum 4.5:1 ratio (3:1 for large text)
+- Interface components: minimum 3:1 ratio with their environment
+- Use DSFR colors (compliant by default)
+
+### Structure
+
+- Headings h1-h6: strict hierarchy with no level skipping
+- Functional keyboard navigation
+- Semantic structure (headings, landmarks, lists)
+
+### Forms
+
+- Each input has a `<label for="...">` or `aria-label`
+- `placeholder` is NOT a label
+- Link errors/help via `aria-describedby`
+- Do not disable the submit button
+
+### SPA Navigation
+
+- Reposition focus after content replacement (`tabindex="-1"` + programmatic focus)
+- Test keyboard navigation after every view change
+- `aria-live="polite"` for partial updates
+
+---
+
+## Security — ANSSI
+
+Ref: https://cyber.gouv.fr/les-regles-de-securite
+
+- [ ] No secrets, API keys, or passwords in code
+- [ ] Environment variables not committed, different per environment
+- [ ] All inputs validated (Zod recommended)
+- [ ] SQL injection prevention (parameterized queries)
+- [ ] XSS prevention (sanitized outputs)
+- [ ] Error messages without internal details
+- [ ] Dependencies up to date (no known vulnerabilities)
+- [ ] No `console.log` in production
+
+> For a comprehensive review, the `securite-anssi` skill from [skills-etat](https://github.com/numerique-gouv/skills-etat) provides a full 12-rule security checklist for government app development.
+
+---
+
+## GDPR / CNIL
+
+- Minimize collected data
+- Explicit consent for non-essential cookies
+- No third-party tracking without consent
+- Legal notices and privacy policy required
+
+---
+
+## Recommended Stack
+
+| Component | Default choice |
+|-----------|---------------|
+| Frontend | Next.js or Vite + React |
+| Design System | `@codegouvfr/react-dsfr` |
+| Validation | Zod |
+| Unit tests | Vitest |
+| E2E tests | Playwright |
+| Package manager | **pnpm** (never npm or yarn) |
+| Hosting | Scalingo or sovereign PaaS |
+| TypeScript | Strict mode |
+| Formatting | Prettier (single quotes) |
+| Linting | ESLint with TypeScript rules |
+
+**Code conventions:**
+- `type` over `interface`
+- Unused variables prefixed with `_`
+- No `any` type
+- Arrow functions for React components
+
+---
+
+## Tests
+
+- Any new feature must be accompanied by tests
+- Before considering a task complete, run the tests and verify that they pass
+- If you modify existing code, add tests if there aren't any already
+
+```bash
+pnpm test              # Unit tests
+pnpm test:e2e          # E2E tests
+pnpm test:coverage     # Coverage
+```
+
+**Coverage targets:** 70% minimum for new code, 90%+ for critical paths.
+
+---
+
+## Git Conventions
+
+### Commits
+
+Format: `type: Description en français`
+
+```bash
+feat: Ajouter l'export PDF des fiches projet
+fix: Corriger le calcul du budget prévisionnel
+docs: Mettre à jour le guide d'installation
+refactor: Simplifier la logique de validation
+test: Ajouter les tests du composant Filtre
+
+# With issue reference
+feat: Implémenter le filtre par région (#456)
+```
+
+**Common types:**
+
+| Type | Usage |
+|------|-------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation |
+| `refactor` | Refactoring without functional change |
+| `test` | Adding or modifying tests |
+| `chore` | Maintenance, config, CI |
+| `style` | Formatting, no logic change |
+
+### Branches
+
+```
+feat/description-courte
+fix/description-courte
+```
+
+---
+
+## Pre-commit Checklist
+
+1. No secrets in code
+2. Inputs validated
+3. No `console.log` in production
+4. DSFR components used (no custom components if a DSFR equivalent exists)
+5. `alt` on informative images
+6. Keyboard navigation OK for dynamic content
+7. `pnpm validate` or `pnpm lint` passes
+8. Tests pass
+
+---
+
+## Open Source
+
+- All code is public (beta.gouv requirement)
+- License: MIT or Apache 2.0
+- Never commit personal data or tokens
+- Ref: [Open source contribution policy](https://disic.github.io/politique-de-contribution-open-source/)
+
+---
+
+## Relevant Skills
+
+The [skills-etat](https://github.com/numerique-gouv/skills-etat) repository provides AI coding assistant skills tailored for French government projects:
+
+- **react-dsfr** — React component reference for the DSFR design system (`@codegouvfr/react-dsfr`)
+- **rgaa** — Full 106-criteria RGAA accessibility audit tool with structured conformity reports
+- **securite-anssi** — Comprehensive 12-rule ANSSI security checklist
+- **datagouv** — data.gouv.fr APIs reference (catalog, metrics, tabular data)
+
+---
+
+## Resources
+
+**Standards & documentation:**
+- [beta.gouv standards](https://doc.incubateur.net/communaute/gerer-son-produit/readme-doc-incubateur-net)
+- [Sillon — beta.gouv technical guide](https://sillon.incubateur.net)
+- [Dashlord — Quality dashboard](https://dashlord.incubateur.net)
+- [beta.gouv project templates](https://github.com/betagouv/?q=template&type=all)
+- [Awesome beta.gouv — Open source tools catalog](https://github.com/betagouv/awesome-betagouv)
+
+**DSFR & accessibility:**
+- [DSFR — Components](https://www.systeme-de-design.gouv.fr/)
+- [react-dsfr](https://github.com/codegouvfr/react-dsfr)
+- [RGAA 4.2](https://accessibilite.numerique.gouv.fr/)
+
+**Security & compliance:**
+- [ANSSI — Security rules](https://cyber.gouv.fr/les-regles-de-securite)
+- [Open source contribution policy](https://disic.github.io/politique-de-contribution-open-source/)
