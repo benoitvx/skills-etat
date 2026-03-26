@@ -18,6 +18,7 @@ Source : https://accessibilite.numerique.gouv.fr/
    - **NC** — Non conforme : critère violé (identifier l'élément et le problème)
    - **NA** — Non applicable : critère sans objet pour ce contenu (justifier)
 4. **Produire le rapport structuré** selon le format ci-dessous
+5. **Exporter le rapport** : écrire le rapport dans un fichier Markdown ET l'afficher dans la conversation
 
 ## Format du rapport de conformité
 
@@ -70,6 +71,18 @@ Source : https://accessibilite.numerique.gouv.fr/
 
 - **{ID}** — {justification courte}
 ```
+
+## Export du rapport
+
+Après avoir produit le rapport, **toujours** :
+
+1. Créer le dossier `audits/` à la racine du projet s'il n'existe pas
+2. Écrire le rapport complet dans `audits/rgaa-AAAA-MM-JJ.md` (date du jour, format ISO)
+3. Afficher également le rapport dans la conversation
+
+Si un fichier du même nom existe déjà, ajouter un suffixe incrémental : `rgaa-2026-03-26-2.md`.
+
+> Exemple : `audits/rgaa-2026-03-26.md`
 
 ## Grille de priorités
 

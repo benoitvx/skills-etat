@@ -11,6 +11,20 @@ Source : https://cyber.gouv.fr/reglementation/cybersecurite-systemes-dinformatio
 
 ---
 
+## Workflow d'audit
+
+1. **Analyser le projet** (code source, configuration, infrastructure, CI/CD)
+2. **Parcourir les 12 domaines** de la checklist ci-dessous
+3. **Pour chaque règle**, attribuer un statut :
+   - **OK** — Règle respectée
+   - **KO** — Règle non respectée (identifier le problème et le risque)
+   - **NA** — Non applicable (justifier)
+   - **Partiel** — Partiellement respectée (préciser ce qui manque)
+4. **Produire le rapport structuré** selon le format défini en fin de document
+5. **Exporter le rapport** : écrire le rapport dans un fichier Markdown ET l'afficher dans la conversation
+
+---
+
 ## Checklist par domaine
 
 ### 1. TLS / HTTPS
@@ -114,3 +128,83 @@ Referrer-Policy: strict-origin-when-cross-origin
 - [ ] Procédure de signalement des incidents de sécurité documentée
 - [ ] Contact CERT ministériel identifié
 - [ ] Capacité à révoquer des accès et rotater des secrets en urgence
+
+---
+
+## Format du rapport d'audit
+
+```markdown
+## Audit Sécurité ANSSI — Rapport de conformité
+
+**Date :** AAAA-MM-JJ
+**Périmètre audité :** [description du projet / service / composant]
+**Résultat global :** X/Y règles conformes (Z% conforme)
+(X conformes, X non conformes, X partielles, X non applicables)
+
+---
+
+### Tableau de synthèse
+
+| # | Domaine | Statut | Détail |
+|---|---------|--------|--------|
+| 1 | TLS / HTTPS | OK / KO / Partiel / NA | résumé en une ligne |
+| 2 | Gestion des secrets | OK / KO / Partiel / NA | résumé en une ligne |
+| 3 | Authentification et contrôle d'accès | OK / KO / Partiel / NA | résumé en une ligne |
+| 4 | Headers de sécurité HTTP | OK / KO / Partiel / NA | résumé en une ligne |
+| 5 | Validation des entrées | OK / KO / Partiel / NA | résumé en une ligne |
+| 6 | Gestion des dépendances | OK / KO / Partiel / NA | résumé en une ligne |
+| 7 | Journalisation et monitoring | OK / KO / Partiel / NA | résumé en une ligne |
+| 8 | Protection des API | OK / KO / Partiel / NA | résumé en une ligne |
+| 9 | Sécurité des conteneurs et du déploiement | OK / KO / Partiel / NA | résumé en une ligne |
+| 10 | Sécurité du poste de développement | OK / KO / Partiel / NA | résumé en une ligne |
+| 11 | Sauvegarde et continuité | OK / KO / Partiel / NA | résumé en une ligne |
+| 12 | Gestion des incidents | OK / KO / Partiel / NA | résumé en une ligne |
+
+---
+
+### Non-conformités détectées
+
+**[KO] Domaine {#} — {Nom du domaine}**
+- **Règle concernée :** description de la règle non respectée
+- **Constat :** ce qui a été observé dans le code / la configuration
+- **Risque :** impact sécurité si non corrigé (ex : fuite de données, compromission)
+- **Correction :** action concrète à mener
+- **Priorité :** 🔴 Critique / 🟠 Élevée / 🟡 Modérée
+
+### Conformités partielles
+
+**[Partiel] Domaine {#} — {Nom du domaine}**
+- **Règles respectées :** liste des points OK
+- **Règles manquantes :** liste des points restants à traiter
+- **Correction :** actions à mener pour atteindre la conformité complète
+
+---
+
+### Domaines conformes
+
+{liste compacte des domaines OK}
+
+### Domaines non applicables
+
+- **Domaine {#}** — {justification courte}
+```
+
+## Grille de priorités
+
+| Priorité | Définition | Exemples |
+|----------|------------|---------|
+| 🔴 **Critique** | Vulnérabilité exploitable, risque immédiat de compromission | Secret dans le code source, pas de TLS, injection SQL possible |
+| 🟠 **Élevée** | Faiblesse significative, exploitation possible sous conditions | Headers de sécurité manquants, pas de rate limiting, pas de MFA admin |
+| 🟡 **Modérée** | Bonne pratique non respectée, risque limité | Logs non centralisés, pas de scan d'images Docker, rotation des secrets non planifiée |
+
+## Export du rapport
+
+Après avoir produit le rapport, **toujours** :
+
+1. Créer le dossier `audits/` à la racine du projet s'il n'existe pas
+2. Écrire le rapport complet dans `audits/securite-anssi-AAAA-MM-JJ.md` (date du jour, format ISO)
+3. Afficher également le rapport dans la conversation
+
+Si un fichier du même nom existe déjà, ajouter un suffixe incrémental : `securite-anssi-2026-03-26-2.md`.
+
+> Exemple : `audits/securite-anssi-2026-03-26.md`
