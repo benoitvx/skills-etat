@@ -227,6 +227,30 @@ jobs:
 
 ---
 
+## Pre-commit (Husky)
+
+`pnpm validate` runs on every commit via Husky. **Never bypass with `--no-verify`** — if the hook fails, fix the underlying issue.
+
+```bash
+# Setup (once)
+pnpm add -D husky
+pnpm exec husky init
+echo "pnpm validate" > .husky/pre-commit
+```
+
+---
+
+## Dependencies
+
+**Never add a dependency without explicit approval.** Before installing a new package:
+- Check if the functionality already exists in the current stack or in DSFR
+- Prefer standard library or built-in browser APIs when possible
+- Ask for validation before running `pnpm add`
+
+This prevents dependency bloat, supply chain risks, and ensures the team reviews every addition.
+
+---
+
 ## Git Conventions
 
 ### Commits
