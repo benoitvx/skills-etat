@@ -83,6 +83,121 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
+### Prévention du flash dark mode (Next.js App Router)
+
+Le flash blanc au chargement en mode sombre est un problème courant. Deux éléments sont **indispensables** pour l'éviter :
+
+1. **`createGetHtmlAttributes()`** : crée une fonction qui retourne les attributs `data-fr-scheme`, `data-fr-theme` et `suppressHydrationWarning` pour la balise `<html>` côté SSR.
+
+2. **`getScriptToRunAsap()`** : génère un script inline à placer dans `<head>` qui détecte le thème (localStorage ou `prefers-color-scheme`) **avant** le premier paint CSS.
+
+**Piège courant** : utiliser `DsfrProviderBase` seul (sans `getHtmlAttributes` ni le script) provoque un flash car le thème n'est résolu que côté client après hydratation.
+
+#### Setup idéal (avec `DsfrHead`)
+
+Si le projet utilise `transpilePackages: ["@codegouvfr/react-dsfr"]` dans `next.config.js`, utiliser le setup complet :
+
+```tsx
+import { DsfrHead } from "@codegouvfr/react-dsfr/next-appdir/DsfrHead";
+import { DsfrProvider } from "@codegouvfr/react-dsfr/next-appdir/DsfrProvider";
+import { getHtmlAttributes } from "@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes";
+import { StartDsfr } from "@codegouvfr/react-dsfr/next-appdir/StartDsfr";
+
+<html {...getHtmlAttributes({ defaultColorScheme, lang })}>
+    <head>
+        <StartDsfr />
+        <DsfrHead Link={Link} />
+    </head>
+    <body>
+        <DsfrProvider lang={lang}>{children}</DsfrProvider>
+    </body>
+</html>
+```
+
+#### Setup alternatif (sans `transpilePackages`)
+
+`DsfrHeadBase` importe un fichier SCSS (`dsfr_plus_icons.scss`) qui inclut les fonts `.woff2`. Sans `transpilePackages`, webpack ne sait pas les traiter et le build échoue. Dans ce cas, utiliser les imports directs :
+
+```tsx
+import { DsfrProviderBase } from '@codegouvfr/react-dsfr/next-app-router';
+import { createGetHtmlAttributes } from '@codegouvfr/react-dsfr/next-app-router/getHtmlAttributes';
+import { getScriptToRunAsap } from '@codegouvfr/react-dsfr/useIsDark/scriptToRunAsap';
+import '@codegouvfr/react-dsfr/dsfr/dsfr.min.css';
+
+const defaultColorScheme = "system" as const;
+const { getHtmlAttributes } = createGetHtmlAttributes({ defaultColorScheme });
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <html {...getHtmlAttributes({ lang: "fr" })}>
+            <head>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: getScriptToRunAsap({
+                            defaultColorScheme,
+                            nonce: undefined,
+                            trustedTypesPolicyName: "react-dsfr",
+                        }),
+                    }}
+                />
+                <link rel="stylesheet" href="/dsfr/utility/icons/icons.min.css" />
+            </head>
+            <body>
+                <DsfrProviderBase lang="fr" Link={Link} defaultColorScheme={defaultColorScheme}>
+                    {children}
+                </DsfrProviderBase>
+            </body>
+        </html>
+    );
+}
+```
+
+**Points clés** :
+- `createGetHtmlAttributes` est importé depuis `.../getHtmlAttributes` (pas `server-only-index` qui tire `DsfrHead` et ses fonts)
+- Le CSS DSFR est importé via `import '@codegouvfr/react-dsfr/dsfr/dsfr.min.css'` (géré par Next.js)
+- Le script anti-flash est injecté manuellement via `dangerouslySetInnerHTML`
+
+### Re-initialisation DSFR après hydratation React
+
+Le JS DSFR scanne le DOM au chargement initial pour bind les événements (modales, disclosures, accordéons). Mais React hydrate **après** ce scan : les éléments rendus par React (comme `<Display />` ou des modales `createModal`) ne sont pas découverts.
+
+**Symptôme** : les boutons avec `aria-controls` sont présents dans le DOM mais ne déclenchent rien au clic.
+
+**Solution** : appeler `window.dsfr.start()` après l'hydratation React pour forcer un re-scan du DOM.
+
+```tsx
+// components/DsfrStartup.tsx
+"use client";
+
+import { useEffect } from "react";
+
+export function DsfrStartup() {
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.dsfr) {
+            window.dsfr.start();
+        }
+    }, []);
+    return null;
+}
+```
+
+Placer `<DsfrStartup />` dans le layout racine, après tous les composants DSFR :
+
+```tsx
+<DsfrProviderBase lang="fr" Link={Link} defaultColorScheme={defaultColorScheme}>
+    <Header />
+    <main>{children}</main>
+    <Footer />
+    <Display />
+    <DsfrStartup />
+</DsfrProviderBase>
+```
+
+**Important** : sans ce re-scan, les composants suivants ne fonctionneront pas au clic :
+- `<Display />` (paramètres d'affichage)
+- Modales créées via `createModal()`
+- Tout composant DSFR qui repose sur le mécanisme natif de disclosure (`aria-controls`)
+
 ## Next.js Pages Router
 
 1. Ajouter dans `next.config.js` :
@@ -111,6 +226,39 @@ const { withDsfr, dsfrDocumentApi } = createNextDsfrIntegrationApi({
 // Dans _app.tsx : export default withDsfr(App);
 // Dans _document.tsx : utiliser dsfrDocumentApi
 ```
+
+## ESLint avec react-dsfr
+
+### Configuration requise
+
+Un projet Next.js + DSFR avec du contenu français nécessite un `.eslintrc.json` **avant** de lancer `next lint`, sinon la commande bloque en mode interactif (échec garanti en CI).
+
+```json
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-css-tags": "off"
+  }
+}
+```
+
+### Pourquoi ces règles sont désactivées
+
+- **`react/no-unescaped-entities`** : le texte français contient des apostrophes partout (`l'État`, `d'utilisation`, `n'est`). Forcer `&apos;` sur chaque occurrence rend le JSX illisible. Cette règle est conçue pour l'anglais où les apostrophes dans le JSX sont rares.
+
+- **`@next/next/no-css-tags`** : react-dsfr nécessite un `<link>` manuel vers `/dsfr/utility/icons/icons.min.css` dans le layout. Ce fichier statique n'est pas un module CSS et ne peut pas être importé via `import`. Le warning est un faux positif.
+
+### Compatibilité ESLint / Next.js
+
+| Next.js | ESLint | eslint-config-next |
+|---------|--------|--------------------|
+| 14.x    | 8.x    | 14.x               |
+| 15.x    | 9.x    | 15.x               |
+
+**Piège** : `npm install eslint` installe ESLint 9 par défaut, qui est incompatible avec Next.js 14 (`Unknown options: useEslintrc, extensions...`). Forcer la version : `npm install --save-dev eslint@^8 eslint-config-next@14`.
+
+---
 
 ## Create React App
 
