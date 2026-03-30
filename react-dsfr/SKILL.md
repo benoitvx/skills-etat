@@ -77,6 +77,8 @@ function MyComponent() {
 
 Le thème respecte automatiquement le mode clair/sombre.
 
+**Attention au flash dark mode** : en Next.js App Router, utiliser `getHtmlAttributes()` + `<StartDsfr />` + `<DsfrHead />` pour éviter le flash blanc au chargement. Voir [references/setup.md](references/setup.md#prévention-du-flash-dark-mode-nextjs-app-router) pour le détail.
+
 ## Pattern : page complète
 
 ```tsx

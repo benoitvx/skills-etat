@@ -421,6 +421,60 @@ import { CallOut } from "@codegouvfr/react-dsfr/CallOut";
 </CallOut>
 ```
 
+### Display (paramètres d'affichage)
+
+```tsx
+import { Display, headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
+```
+
+Le composant `Display` permet à l'utilisateur de choisir le thème d'affichage (clair, sombre, système). Il s'intègre dans le Header et/ou le Footer via `headerFooterDisplayItem`.
+
+**Intégration dans le Header :**
+```tsx
+<Header
+    quickAccessItems={[
+        headerFooterDisplayItem,
+        // ... autres items
+    ]}
+/>
+```
+
+**Intégration dans le Footer :**
+```tsx
+<Footer
+    bottomItems={[
+        headerFooterDisplayItem,
+        // ... autres items (mentions légales, etc.)
+    ]}
+/>
+```
+
+**Placement du composant `<Display />`** dans le layout (obligatoire, une seule fois) :
+```tsx
+import { Display, headerFooterDisplayItem } from "@codegouvfr/react-dsfr/Display";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <html {...getHtmlAttributes({ defaultColorScheme, lang })}>
+            <head>
+                <StartDsfr />
+                <DsfrHead Link={Link} />
+            </head>
+            <body>
+                <DsfrProvider lang={lang}>
+                    <Header quickAccessItems={[headerFooterDisplayItem]} />
+                    <main>{children}</main>
+                    <Footer bottomItems={[headerFooterDisplayItem]} />
+                    <Display />
+                </DsfrProvider>
+            </body>
+        </html>
+    );
+}
+```
+
+Le bouton "Paramètres d'affichage" ouvre automatiquement une modale DSFR avec les options Clair / Sombre / Système.
+
 ---
 
 ## Formulaires
