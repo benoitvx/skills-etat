@@ -8,9 +8,15 @@ Skills pour les assistants de code IA (Claude Code, OpenCode, Mistral Vibe) int�
 
 Créer des interfaces React conformes au [Design System de l'État](https://www.systeme-de-design.gouv.fr/) avec `@codegouvfr/react-dsfr`.
 
-- Setup Vite + React + react-dsfr
+- Setup Vite / Next.js (App Router & Pages Router) + react-dsfr
+- Dark mode sans flash (`createGetHtmlAttributes` + `getScriptToRunAsap`)
+- Re-initialisation DSFR après hydratation React (pattern `DsfrStartup` / `window.dsfr.start()`)
+- Composant Display et intégration Header/Footer avec `headerFooterDisplayItem`
 - Import patterns pour chaque composant
 - Grille, icônes, classes utilitaires `fr.cx()`
+- Config ESLint recommandée (CI sans prompt interactif, règles DSFR)
+- Fix imports Next.js App Router (chemins `next-app-router` depuis v1.30+)
+- Fix icônes dynamiques (import `icons.main.min.css` pour le Header)
 - Composants : Header, Footer, Button, Card, Alert, Input, Select, etc.
 
 ### rgaa
@@ -22,6 +28,7 @@ Fournir du code HTML/React à auditer → rapport de conformité structuré avec
 - Workflow d'audit en 4 étapes et format de rapport standardisé
 - 106 critères avec test de code, non-conformité type et priorité
 - Couvre les 13 thèmes : images, cadres, couleurs, multimédia, tableaux, liens, scripts, structure, présentation, formulaires, navigation, consultation
+- Export du rapport d'audit dans `audits/rgaa-YYYY-MM-DD.md`
 - Basé sur WCAG 2.1 niveau AA
 
 ### lasuite-ui-kit
@@ -38,9 +45,11 @@ Créer des interfaces React pour les applications [LaSuite](https://lasuite.nume
 
 12 règles essentielles de sécurité issues du [guide d'hygiène ANSSI](https://cyber.gouv.fr/publications/guide-dhygiene-informatique).
 
+- Workflow d'audit structuré et grille de priorités (🔴 Critique, 🟠 Élevé, 🟡 Modéré)
 - TLS/HTTPS, gestion des secrets, authentification
 - Headers de sécurité, validation des entrées
 - Dépendances, logs, conteneurs, incidents
+- Export du rapport d'audit dans `audits/securite-anssi-YYYY-MM-DD.md`
 
 ### datagouv-apis
 
@@ -61,6 +70,8 @@ Fichiers `INSTRUCTIONS.md` prêts à l'emploi pour configurer un assistant de co
 | [`LaSuite.md`](templates/instructions/LaSuite.md) | [La Suite numérique](https://lasuite.numerique.gouv.fr/) | UI Kit + Cunningham | yarn |
 
 Chaque template inclut : conventions de langue, design system, accessibilité RGAA, sécurité ANSSI, RGPD, stack recommandée, tests, conventions Git et références vers les skills pertinentes de ce repo.
+
+Le template `beta.gouv.md` inclut également : Definition of Done (boucle tests → vérification navigateur → correction), CI GitHub Actions, pre-commit Husky (`pnpm validate`), contrainte sur les dépendances, section Expected Behavior (Plan Mode, gestion des tâches, self-improvement loop), section Architecture et guides de personnalisation.
 
 ## Installation
 
