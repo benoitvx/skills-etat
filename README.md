@@ -42,7 +42,7 @@ Créer des interfaces React pour les applications [LaSuite](https://lasuite.nume
 - Headers de sécurité, validation des entrées
 - Dépendances, logs, conteneurs, incidents
 
-### datagouv-apis
+### datagouv
 
 Référence consolidée des 3 APIs de [data.gouv.fr](https://www.data.gouv.fr/) pour interagir avec la plateforme de données ouvertes.
 
@@ -116,7 +116,7 @@ skills/
 │       └── criteres-structure-presentation.md
 ├── securite-anssi/
 │   └── SKILL.md
-├── datagouv-apis/
+├── datagouv/
 │   └── SKILL.md
 └── templates/
     └── instructions/
