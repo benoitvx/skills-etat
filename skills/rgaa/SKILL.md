@@ -1,6 +1,12 @@
 ---
 name: rgaa
-description: Outil d'audit de conformité RGAA 4.1.2 pour sites web et composants React/HTML. Utiliser cette skill pour auditer la conformité RGAA d'un site ou d'un composant : quand l'utilisateur demande un audit d'accessibilité, un rapport de conformité RGAA, quand il veut savoir si son code/site respecte le RGAA, quand il mentionne "audit RGAA", "conformité RGAA", "non-conformités", "déclaration d'accessibilité", ou quand il partage du code HTML/React pour vérification a posteriori.
+description: >-
+  Outil d'audit de conformité RGAA 4.1.2 pour sites web et composants React/HTML.
+  Utiliser cette skill pour auditer la conformité RGAA d'un site ou d'un composant :
+  quand l'utilisateur demande un audit d'accessibilité, un rapport de conformité RGAA,
+  quand il veut savoir si son code/site respecte le RGAA, quand il mentionne "audit RGAA",
+  "conformité RGAA", "non-conformités", "déclaration d'accessibilité", ou quand il partage
+  du code HTML/React pour vérification a posteriori.
 ---
 
 # RGAA 4.1.2 — Outil d'audit de conformité
