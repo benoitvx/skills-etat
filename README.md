@@ -11,6 +11,9 @@ Skills pour les assistants de code IA (Claude Code, OpenCode, Mistral Vibe) int�
 | [**lasuite-ui-kit**](skills/lasuite-ui-kit/) | Interfaces React pour [LaSuite](https://lasuite.numerique.gouv.fr/) avec `@gouvfr-lasuite/ui-kit` et `@gouvfr-lasuite/cunningham-react` |
 | [**securite-anssi**](skills/securite-anssi/) | 12 règles de sécurité issues du [guide d'hygiène ANSSI](https://cyber.gouv.fr/publications/guide-dhygiene-informatique) |
 | [**datagouv-apis**](skills/datagouv-apis/) | 3 APIs de [data.gouv.fr](https://www.data.gouv.fr/) — synchronisée depuis [datagouv/datagouv-skill](https://github.com/datagouv/datagouv-skill) |
+| [**rag-parse**](skills/rag-parse/) | Convertir PDF/DOCX/PPTX/XLSX/images en markdown ou JSON avec [LiteParse](https://github.com/run-llama/liteparse) |
+| [**rag-index**](skills/rag-index/) | Indexer un corpus de documents pour la recherche sémantique avec [qmd](https://github.com/tobi/qmd) |
+| [**rag-search**](skills/rag-search/) | Rechercher dans une base de connaissances indexée avec [qmd](https://github.com/tobi/qmd) |
 
 Chaque skill a son propre README avec des exemples d'utilisation et des liens utiles.
 
@@ -61,17 +64,20 @@ Copier les fichiers `SKILL.md` et `references/` dans le dossier de votre projet 
 ```
 skills/
 ├── react-dsfr/
+│   ├── README.md
 │   ├── SKILL.md
 │   └── references/
 │       ├── setup.md
 │       └── components.md
 ├── lasuite-ui-kit/
+│   ├── README.md
 │   ├── SKILL.md
 │   └── references/
 │       ├── components.md
 │       ├── cunningham.md
 │       └── setup.md
 ├── rgaa/
+│   ├── README.md
 │   ├── SKILL.md
 │   └── references/
 │       ├── criteres-formulaires.md
@@ -80,8 +86,19 @@ skills/
 │       ├── criteres-navigation-consultation.md
 │       └── criteres-structure-presentation.md
 ├── securite-anssi/
+│   ├── README.md
 │   └── SKILL.md
 ├── datagouv-apis/
+│   ├── README.md
+│   └── SKILL.md
+├── rag-parse/
+│   ├── README.md
+│   └── SKILL.md
+├── rag-index/
+│   ├── README.md
+│   └── SKILL.md
+├── rag-search/
+│   ├── README.md
 │   └── SKILL.md
 └── templates/
     └── instructions/
