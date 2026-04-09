@@ -57,7 +57,7 @@ These files live in `.context/` (ctx's directory) for cross-session persistence:
 
 ## Templates vs Runtime Files
 
-The files in this skill directory (`skills/memory/`) are **templates** for reference.
+The files in this skill directory (`skills/rag-tracking/`) are **templates** for reference.
 
 **Runtime files** live in `.context/` (managed by ctx):
 

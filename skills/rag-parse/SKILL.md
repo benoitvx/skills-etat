@@ -126,7 +126,7 @@ lit screenshot document.pdf --pages "1-10" -o ./screenshots
 
 ---
 
-## Step 3 — Key Options Reference
+## Step 2 — Key Options Reference
 
 ### OCR Options
 

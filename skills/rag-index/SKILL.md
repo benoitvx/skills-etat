@@ -135,8 +135,6 @@ qmd requires SQLite with extension loading support. Solutions:
 - **Linux**: Build sqlite-vec from source
 - **Docker**: Use official qmd Docker image
 
-See docs/qmd-setup.md for detailed instructions.
-
 ### Other Issues
 
 If embeddings fail:
