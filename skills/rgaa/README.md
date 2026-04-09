@@ -21,7 +21,7 @@ C'est un outil d'**audit a posteriori** : on lui fournit du code à analyser, il
 | [`references/criteres-multimedia-tableaux-liens-scripts.md`](references/criteres-multimedia-tableaux-liens-scripts.md) | Thèmes 4 à 7 : Multimédia, Tableaux, Liens, Scripts |
 | [`references/criteres-structure-presentation.md`](references/criteres-structure-presentation.md) | Thèmes 8 à 10 : Éléments obligatoires, Structure, Présentation |
 | [`references/criteres-formulaires.md`](references/criteres-formulaires.md) | Thème 11 : Formulaires (13 critères) |
-| [`references/criteres-navigation-consultation.md`](references/criteres-navigation-consultation.md) | Thèmes 12–13 : Navigation, Consultation |
+| [`references/criteres-navigation-consultation.md`](references/criteres-navigation-consultation.md) | Thèmes 12 à 13 : Navigation, Consultation |
 
 ## Installation
 

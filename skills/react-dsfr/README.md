@@ -46,6 +46,7 @@ Une fois la skill installée, l'assistant IA peut répondre à des demandes comm
 - [react-dsfr sur GitHub](https://github.com/codegouvfr/react-dsfr)
 - [Storybook react-dsfr](https://components.react-dsfr.codegouv.studio/)
 - [Design System de l'État](https://www.systeme-de-design.gouv.fr/)
+
 ## Licence
 
 MIT
